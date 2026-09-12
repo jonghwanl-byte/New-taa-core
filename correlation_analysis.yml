@@ -1,0 +1,27 @@
+name: Correlation Regime Analysis
+
+on:
+  workflow_dispatch: {}   # manual trigger only — not a recurring signal
+
+jobs:
+  run-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run correlation regime test
+        run: python analyze_correlation_regime.py
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: correlation-regime-results
+          path: results/
+          retention-days: 30
